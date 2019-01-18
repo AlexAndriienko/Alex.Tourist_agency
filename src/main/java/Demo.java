@@ -11,11 +11,9 @@ public class Demo {
 		final String PATH_SQL_QUERIES = "src/main/webapp/WEB-INF/queries.properties";
 		final String PATH_DB_CONFIGS = "src/main/webapp/WEB-INF/dbConfig.properties";
 		
-		
-		UserDao dud = new DefaultUserDao();
-		UserData user = dud.getUserById(1);
-		System.out.println(user);		
+			
 		System.out.println(ReadPropertiesFile.readFile(PATH_SQL_QUERIES, "getUserByIdSQL"));
+		System.out.println(ReadPropertiesFile.readFile(PATH_SQL_QUERIES, "getUserByLoginSQL"));
 		System.out.println(ReadPropertiesFile.readFile(PATH_DB_CONFIGS, "db.host"));
 		System.out.println(ReadPropertiesFile.readFile(PATH_DB_CONFIGS, "db.login"));
 		System.out.println(ReadPropertiesFile.readFile(PATH_DB_CONFIGS, "db.password"));

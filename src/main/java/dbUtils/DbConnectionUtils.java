@@ -2,13 +2,17 @@ package dbUtils;
 
 import java.sql.DriverManager;
 import java.sql.SQLException;
+
+import utils.ReadPropertiesFile;
+
 import java.sql.Connection;
 
 public class DbConnectionUtils {
-
-	private static final String USERNAME = "root";
-	private static final String PASSWORD = "dsdsf565465kj";
-	private static final String CONNECTIONURL = "jdbc:mysql://localhost:3306/tourist_agency?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC";
+	
+	private static final String PATH_DB_CONFIGS = "properties/dbConfig.properties";
+	private static final String USERNAME = ReadPropertiesFile.readFile(PATH_DB_CONFIGS, "db.login");
+	private static final String PASSWORD = ReadPropertiesFile.readFile(PATH_DB_CONFIGS, "db.password");
+	private static final String CONNECTIONURL = ReadPropertiesFile.readFile(PATH_DB_CONFIGS, "db.host");
 	private static final String MYSQL_JDBC_DRIVER_NAME = "com.mysql.cj.jdbc.Driver";
 
 	public static Connection getConnection() {

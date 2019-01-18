@@ -8,14 +8,28 @@ import java.util.List;
 import dao.UserDao;
 import dbUtils.DbConnectionUtils;
 import dto.UserData;
+import utils.ReadPropertiesFile;
 
 public class DefaultUserDao implements UserDao {
-
+	
+	private static final String PATH_SQL_QUERIES = "properties/queries.properties";
+	private static DefaultUserDao instance;
+		
+	private DefaultUserDao() {
+    }
+	
+	public static synchronized DefaultUserDao getDefaultUserDao() {
+        if (instance == null) {
+            instance = new DefaultUserDao();
+        }
+        return instance;
+    }
+	
 	public UserData getUserById(int id) throws SQLException {
 
-		PreparedStatement preparedStatementGetUserById = null;
+		PreparedStatement preparedStatementGetUserById = null;		
 		Connection con = null;
-		String getUserByIdSQL = "SELECT * FROM users WHERE user_ID = ";
+		String getUserByIdSQL = ReadPropertiesFile.readFile(PATH_SQL_QUERIES, "getUserByIdSQL");		
 		UserData userData = new UserData();
 
 		try {
@@ -49,6 +63,40 @@ public class DefaultUserDao implements UserDao {
 	public List<UserData> getUsers() {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	public UserData getUserByLogin(String userLogin) throws SQLException {
+		PreparedStatement preparedStatementGetUserByLogin = null;
+		Connection con = null;
+		String getUserByLoginSQL = ReadPropertiesFile.readFile(PATH_SQL_QUERIES, "getUserByLoginSQL");
+		UserData userData = new UserData();
+		
+		try {
+			con = DbConnectionUtils.getConnection();
+			preparedStatementGetUserByLogin = con.prepareStatement(getUserByLoginSQL + "\"" + userLogin+ "\"");
+			ResultSet rs = preparedStatementGetUserByLogin.executeQuery();
+			while (rs.next()) {
+				userData.setUserID(rs.getInt("user_ID"));
+				userData.setUserLogin(rs.getString("user_Login"));
+				userData.setUserPass(rs.getString("user_Pass"));
+				userData.setUserEmail(rs.getString("user_Email"));
+				userData.setUser_Access(rs.getInt("user_Access"));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+
+			if (preparedStatementGetUserByLogin!= null) {
+				preparedStatementGetUserByLogin.close();
+			}
+
+			if (con != null) {
+				con.close();
+			}
+		}
+
+		return userData;
 	}
 
 }
