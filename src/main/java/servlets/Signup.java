@@ -1,11 +1,16 @@
 package servlets;
 
 import java.io.IOException;
+import java.io.PrintWriter;
+import java.sql.SQLException;
+
 import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import dao.impl.DefaultUserDao;
+import utils.ValidateUser;
 
 public class Signup extends HttpServlet {
 	private static final long serialVersionUID = 1L;
@@ -21,8 +26,27 @@ public class Signup extends HttpServlet {
 
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		String userLogin = request.getParameter("login");
+		String userEmail = request.getParameter("email");
+		String pass = request.getParameter("password");
+		String passRpt = request.getParameter("password-repeat");
+		PrintWriter out = response.getWriter();
 		
-				
+		if (ValidateUser.checkLoginMatch(userLogin)) {
+			out.println("User with this login already exists");		
+		} else if (ValidateUser.checkEmailMatch(userEmail)) {
+			out.println("User with this email already exists");
+		} else if (!pass.equals(passRpt)) {
+			out.println("Password mismatch");
+		} else {
+			try {
+				DefaultUserDao.getDefaultUserDao().setNewUser(userLogin, userEmail, pass);				
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+			out.println("Registration successful");
+		}
+			
 	}
 
 }

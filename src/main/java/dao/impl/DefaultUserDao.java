@@ -11,25 +11,24 @@ import dto.UserData;
 import utils.ReadPropertiesFile;
 
 public class DefaultUserDao implements UserDao {
-	
+
 	private static final String PATH_SQL_QUERIES = "properties/queries.properties";
 	private static DefaultUserDao instance;
-		
-	private DefaultUserDao() {
-    }
-	
-	public static synchronized DefaultUserDao getDefaultUserDao() {
-        if (instance == null) {
-            instance = new DefaultUserDao();
-        }
-        return instance;
-    }
-	
-	public UserData getUserById(int id) throws SQLException {
 
-		PreparedStatement preparedStatementGetUserById = null;		
+	private DefaultUserDao() {
+	}
+
+	public static synchronized DefaultUserDao getDefaultUserDao() {
+		if (instance == null) {
+			instance = new DefaultUserDao();
+		}
+		return instance;
+	}
+
+	public UserData getUserById(int id) throws SQLException {
+		PreparedStatement preparedStatementGetUserById = null;
 		Connection con = null;
-		String getUserByIdSQL = ReadPropertiesFile.readFile(PATH_SQL_QUERIES, "getUserByIdSQL");		
+		String getUserByIdSQL = ReadPropertiesFile.readFile(PATH_SQL_QUERIES, "getUserByIdSQL");
 		UserData userData = new UserData();
 
 		try {
@@ -47,7 +46,7 @@ public class DefaultUserDao implements UserDao {
 			e.printStackTrace();
 		} finally {
 
-			if (preparedStatementGetUserById!= null) {
+			if (preparedStatementGetUserById != null) {
 				preparedStatementGetUserById.close();
 			}
 
@@ -71,10 +70,10 @@ public class DefaultUserDao implements UserDao {
 		Connection con = null;
 		String getUserByLoginSQL = ReadPropertiesFile.readFile(PATH_SQL_QUERIES, "getUserByLoginSQL");
 		UserData userData = new UserData();
-		
+
 		try {
 			con = DbConnectionUtils.getConnection();
-			preparedStatementGetUserByLogin = con.prepareStatement(getUserByLoginSQL + "\"" + userLogin+ "\"");
+			preparedStatementGetUserByLogin = con.prepareStatement(getUserByLoginSQL + "\"" + userLogin + "\"");
 			ResultSet rs = preparedStatementGetUserByLogin.executeQuery();
 			while (rs.next()) {
 				userData.setUserID(rs.getInt("user_ID"));
@@ -87,7 +86,7 @@ public class DefaultUserDao implements UserDao {
 			e.printStackTrace();
 		} finally {
 
-			if (preparedStatementGetUserByLogin!= null) {
+			if (preparedStatementGetUserByLogin != null) {
 				preparedStatementGetUserByLogin.close();
 			}
 
@@ -99,4 +98,49 @@ public class DefaultUserDao implements UserDao {
 		return userData;
 	}
 
+	@Override
+	public UserData getUserByEmail(String userEmail) throws SQLException {
+		PreparedStatement preparedStatementGetUserByEmail = null;
+		Connection con = null;
+		String getUserByEmailSQL = ReadPropertiesFile.readFile(PATH_SQL_QUERIES, "getUserByEmailSQL");
+		UserData userData = new UserData();
+
+		try {
+			con = DbConnectionUtils.getConnection();
+			preparedStatementGetUserByEmail = con.prepareStatement(getUserByEmailSQL + "\"" + userEmail + "\"");
+			ResultSet rs = preparedStatementGetUserByEmail.executeQuery();
+			while (rs.next()) {
+				userData.setUserID(rs.getInt("user_ID"));
+				userData.setUserLogin(rs.getString("user_Login"));
+				userData.setUserPass(rs.getString("user_Pass"));
+				userData.setUserEmail(rs.getString("user_Email"));
+				userData.setUser_Access(rs.getInt("user_Access"));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+
+			if (preparedStatementGetUserByEmail != null) {
+				preparedStatementGetUserByEmail.close();
+			}
+
+			if (con != null) {
+				con.close();
+			}
+		}
+		return userData;
+	}
+
+	@Override
+	public void setNewUser(String userLogin, String userEmail, String pass) throws SQLException {
+		Connection con = null;
+		String setNewUserSQL = ReadPropertiesFile.readFile(PATH_SQL_QUERIES, "setNewUserSQL");
+		con = DbConnectionUtils.getConnection();
+		PreparedStatement preparedStatementSetNewUser = con.prepareStatement(setNewUserSQL);
+		preparedStatementSetNewUser.setString(1, userLogin);
+		preparedStatementSetNewUser.setString(2, pass);
+		preparedStatementSetNewUser.setString(3, userEmail);		
+		preparedStatementSetNewUser.execute();
+		con.close();
+	}
 }
