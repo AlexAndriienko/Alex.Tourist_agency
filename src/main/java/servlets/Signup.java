@@ -2,7 +2,6 @@ package servlets;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.sql.SQLException;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -38,12 +37,10 @@ public class Signup extends HttpServlet {
 			out.println("User with this email already exists");
 		} else if (!pass.equals(passRpt)) {
 			out.println("Password mismatch");
+		} else if (userLogin == null || userEmail == null || pass == null || passRpt == null) {
+			out.println("Registration error! Please fill in all fields.");
 		} else {
-			try {
-				DefaultUserDao.getDefaultUserDao().setNewUser(userLogin, userEmail, pass);				
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
+			DefaultUserDao.getDefaultUserDao().setNewUser(userLogin, userEmail, pass);
 			out.println("Registration successful");
 		}
 			

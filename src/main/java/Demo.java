@@ -1,4 +1,11 @@
+
 import java.sql.SQLException;
+import java.util.Iterator;
+import java.util.List;
+
+import dao.impl.DefaultTourDao;
+import dao.impl.DefaultUserDao;
+import dto.TourData;
 
 public class Demo {
 
@@ -9,5 +16,15 @@ public class Demo {
 //			
 //		
 //		System.out.println(ValidateUser.checkLoginMatch("Vasja"));
+		
+		
+//		List<TourData> allToursList = DefaultTourDao.getDefaultTourDao().getAllTours();
+//		Iterator<TourData> it = allToursList.iterator();
+//		System.out.println();
+//		 while(it.hasNext()){
+//		       System.out.println(it.next().toString());
+//		    }
+		
+		System.out.println(DefaultUserDao.getDefaultUserDao().getUserByUQData("Alex", "getUserByLoginSQL"));
 	}
 }

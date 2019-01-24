@@ -8,6 +8,7 @@ public class TourData {
 	private String tourCountry;
 	private String tourHotel;
 	private int tourDuration;
+	private double tourPrice;
 
 	public int getToursID() {
 		return tourID;
@@ -65,11 +66,21 @@ public class TourData {
 		this.tourDuration = tourDuration;
 	}
 
+	public double getTourPrice() {
+		return tourPrice;
+	}
+
+	public void setTourPrice(double tourPrice) {
+		this.tourPrice = tourPrice;
+	}
+
 	@Override
 	public String toString() {
 		return "TourData [tourID=" + tourID + ", tourType=" + tourType + ", tourLocation=" + tourLocation
 				+ ", tourCity=" + tourCity + ", tourCountry=" + tourCountry + ", tourHotel=" + tourHotel
-				+ ", tourDuration=" + tourDuration + "]";
+				+ ", tourDuration=" + tourDuration + ", tourPrice=" + tourPrice + "]";
 	}
+	
+	
 
 }

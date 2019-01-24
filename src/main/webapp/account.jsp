@@ -11,5 +11,6 @@
 <body>
 <p>Welcome <%= request.getAttribute("loggedUserLogin") %>!</p>
 
+
 </body>
 </html>

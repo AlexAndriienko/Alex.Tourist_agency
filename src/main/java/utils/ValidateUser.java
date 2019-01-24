@@ -1,6 +1,5 @@
 package utils;
 
-import java.sql.SQLException;
 import dao.impl.DefaultUserDao;
 import dto.UserData;
 
@@ -11,49 +10,41 @@ public class ValidateUser {
 
 		boolean result = false;
 
-		try {
-			UserData user = DefaultUserDao.getDefaultUserDao().getUserByLogin(login);
-			if (user.getUserLogin() == null)
-				result = false;
-			else if (!password.equals(user.getUserPass()))
-				result = false;
-			else if (password.equals(user.getUserPass()))
-				result = true;
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
+		UserData user = DefaultUserDao.getDefaultUserDao().getUserByUQData(login, "getUserByLoginSQL");
+		if (user.getUserLogin() == null)
+			result = false;
+		else if (!password.equals(user.getUserPass()))
+			result = false;
+		else if (password.equals(user.getUserPass()))
+			result = true;
+
 		return result;
 	}
 
-	public static boolean checkLoginMatch(String userLogin) {
+	public static boolean checkLoginMatch(String login) {
 
 		boolean result = false;
 		UserData user = null;
 
-		try {
-			user = DefaultUserDao.getDefaultUserDao().getUserByLogin(userLogin);
-			if (user.getUserLogin() == null)
-				result = false;
-			else result = true;
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		
+		user = DefaultUserDao.getDefaultUserDao().getUserByUQData(login, "getUserByLoginSQL");
+		if (user.getUserLogin() == null)
+			result = false;
+		else
+			result = true;
+
 		return result;
 	}
-	
-	public static boolean checkEmailMatch(String userEmail) {
+
+	public static boolean checkEmailMatch(String email) {
 
 		boolean result = false;
 
-		try {
-			UserData user = DefaultUserDao.getDefaultUserDao().getUserByEmail(userEmail);
-			if (user.getUserLogin() == null)
-				result = false;
-			else result = true;
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
+		UserData user = DefaultUserDao.getDefaultUserDao().getUserByUQData(email, "getUserByEmailSQL");
+		if (user.getUserLogin() == null)
+			result = false;
+		else
+			result = true;
+		
 		return result;
 	}
 

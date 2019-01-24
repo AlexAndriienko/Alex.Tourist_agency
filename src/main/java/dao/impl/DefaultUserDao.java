@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.LinkedList;
 import java.util.List;
 import dao.UserDao;
 import dbUtils.DbConnectionUtils;
@@ -25,16 +26,66 @@ public class DefaultUserDao implements UserDao {
 		return instance;
 	}
 
-	public UserData getUserById(int id) throws SQLException {
-		PreparedStatement preparedStatementGetUserById = null;
+	@Override
+	public List<UserData> getAllUsers() {
+		List<UserData> allUsersList = new LinkedList<UserData>();
+		String SQLquery = ReadPropertiesFile.readFile(PATH_SQL_QUERIES, "getAllUsersSQL");
+		PreparedStatement prSt = null;
 		Connection con = null;
-		String getUserByIdSQL = ReadPropertiesFile.readFile(PATH_SQL_QUERIES, "getUserByIdSQL");
-		UserData userData = new UserData();
 
 		try {
 			con = DbConnectionUtils.getConnection();
-			preparedStatementGetUserById = con.prepareStatement(getUserByIdSQL + id);
-			ResultSet rs = preparedStatementGetUserById.executeQuery();
+			prSt = con.prepareStatement(SQLquery);
+			ResultSet rs = prSt.executeQuery();
+
+			while (rs.next()) {
+				UserData userData = new UserData();
+				userData.setUserID(rs.getInt("user_ID"));
+				userData.setUserLogin(rs.getString("user_Login"));
+				userData.setUserPass(rs.getString("user_Pass"));
+				userData.setUserEmail(rs.getString("user_Email"));
+				userData.setUser_Access(rs.getInt("user_Access"));
+
+				allUsersList.add(userData);
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+
+			if (prSt != null) {
+				try {
+					prSt.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+
+			if (con != null) {
+				try {
+					con.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+
+		}
+
+		return allUsersList;
+	}
+
+	@Override
+	public UserData getUserByUQData(String data, String SQLkey) {
+		UserData userData = new UserData();
+		String SQLquery = ReadPropertiesFile.readFile(PATH_SQL_QUERIES, SQLkey);
+		PreparedStatement prSt = null;
+		Connection con = null;
+
+		try {
+			con = DbConnectionUtils.getConnection();
+			prSt = con.prepareStatement(SQLquery);
+			prSt.setString(1, data);
+			ResultSet rs = prSt.executeQuery();
 			while (rs.next()) {
 				userData.setUserID(rs.getInt("user_ID"));
 				userData.setUserLogin(rs.getString("user_Login"));
@@ -46,12 +97,20 @@ public class DefaultUserDao implements UserDao {
 			e.printStackTrace();
 		} finally {
 
-			if (preparedStatementGetUserById != null) {
-				preparedStatementGetUserById.close();
+			if (prSt != null) {
+				try {
+					prSt.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
 			}
 
 			if (con != null) {
-				con.close();
+				try {
+					con.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
 			}
 		}
 
@@ -59,88 +118,48 @@ public class DefaultUserDao implements UserDao {
 	}
 
 	@Override
-	public List<UserData> getUsers() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public UserData getUserByLogin(String userLogin) throws SQLException {
-		PreparedStatement preparedStatementGetUserByLogin = null;
-		Connection con = null;
-		String getUserByLoginSQL = ReadPropertiesFile.readFile(PATH_SQL_QUERIES, "getUserByLoginSQL");
-		UserData userData = new UserData();
-
+	public void setNewUser(String userLogin, String userEmail, String pass) {
+		String SQLquery = ReadPropertiesFile.readFile(PATH_SQL_QUERIES, "setNewUserSQL");
+		PreparedStatement prSt;
+		Connection con = DbConnectionUtils.getConnection();
 		try {
-			con = DbConnectionUtils.getConnection();
-			preparedStatementGetUserByLogin = con.prepareStatement(getUserByLoginSQL + "\"" + userLogin + "\"");
-			ResultSet rs = preparedStatementGetUserByLogin.executeQuery();
-			while (rs.next()) {
-				userData.setUserID(rs.getInt("user_ID"));
-				userData.setUserLogin(rs.getString("user_Login"));
-				userData.setUserPass(rs.getString("user_Pass"));
-				userData.setUserEmail(rs.getString("user_Email"));
-				userData.setUser_Access(rs.getInt("user_Access"));
-			}
+			prSt = con.prepareStatement(SQLquery);
+			prSt.setString(1, userLogin);
+			prSt.setString(2, pass);
+			prSt.setString(3, userEmail);
+			prSt.execute();
 		} catch (SQLException e) {
 			e.printStackTrace();
+
 		} finally {
-
-			if (preparedStatementGetUserByLogin != null) {
-				preparedStatementGetUserByLogin.close();
-			}
-
-			if (con != null) {
+			try {
 				con.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
 			}
 		}
-
-		return userData;
 	}
 
 	@Override
-	public UserData getUserByEmail(String userEmail) throws SQLException {
-		PreparedStatement preparedStatementGetUserByEmail = null;
-		Connection con = null;
-		String getUserByEmailSQL = ReadPropertiesFile.readFile(PATH_SQL_QUERIES, "getUserByEmailSQL");
-		UserData userData = new UserData();
-
+	public void removeUser(int userID) {
+		Connection con = DbConnectionUtils.getConnection();
+		String SQLquery = ReadPropertiesFile.readFile(PATH_SQL_QUERIES, "removeUserSQL");
+		PreparedStatement prSt;
 		try {
-			con = DbConnectionUtils.getConnection();
-			preparedStatementGetUserByEmail = con.prepareStatement(getUserByEmailSQL + "\"" + userEmail + "\"");
-			ResultSet rs = preparedStatementGetUserByEmail.executeQuery();
-			while (rs.next()) {
-				userData.setUserID(rs.getInt("user_ID"));
-				userData.setUserLogin(rs.getString("user_Login"));
-				userData.setUserPass(rs.getString("user_Pass"));
-				userData.setUserEmail(rs.getString("user_Email"));
-				userData.setUser_Access(rs.getInt("user_Access"));
-			}
+			prSt = con.prepareStatement(SQLquery);
+			prSt.setInt(1, userID);
+			prSt.execute();
 		} catch (SQLException e) {
 			e.printStackTrace();
+
 		} finally {
-
-			if (preparedStatementGetUserByEmail != null) {
-				preparedStatementGetUserByEmail.close();
-			}
-
-			if (con != null) {
+			try {
 				con.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
 			}
 		}
-		return userData;
+
 	}
 
-	@Override
-	public void setNewUser(String userLogin, String userEmail, String pass) throws SQLException {
-		Connection con = null;
-		String setNewUserSQL = ReadPropertiesFile.readFile(PATH_SQL_QUERIES, "setNewUserSQL");
-		con = DbConnectionUtils.getConnection();
-		PreparedStatement preparedStatementSetNewUser = con.prepareStatement(setNewUserSQL);
-		preparedStatementSetNewUser.setString(1, userLogin);
-		preparedStatementSetNewUser.setString(2, pass);
-		preparedStatementSetNewUser.setString(3, userEmail);		
-		preparedStatementSetNewUser.execute();
-		con.close();
-	}
 }

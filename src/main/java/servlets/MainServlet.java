@@ -1,7 +1,6 @@
 package servlets;
 
 import java.io.IOException;
-import java.sql.SQLException;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -35,11 +34,7 @@ public class MainServlet extends HttpServlet {
 
 		if (ValidateUser.checkUser(userLogin, userPass)) {
 
-			try {
-				loggedUser = DefaultUserDao.getDefaultUserDao().getUserByLogin(userLogin);
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
+			loggedUser = DefaultUserDao.getDefaultUserDao().getUserByUQData(userLogin, "getUserByLoginSQL");
 
 			HttpSession session = request.getSession();
 			session.setAttribute("loggedUser", loggedUser);
