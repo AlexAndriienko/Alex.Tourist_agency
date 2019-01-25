@@ -40,7 +40,7 @@ public class Signup extends HttpServlet {
 		} else if (userLogin == null || userEmail == null || pass == null || passRpt == null) {
 			out.println("Registration error! Please fill in all fields.");
 		} else {
-			DefaultUserDao.getDefaultUserDao().setNewUser(userLogin, userEmail, pass);
+//			DefaultUserDao.getDefaultUserDao().setNewUser(userLogin, userEmail, pass);
 			out.println("Registration successful");
 		}
 			

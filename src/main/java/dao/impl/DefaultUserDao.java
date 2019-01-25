@@ -1,13 +1,15 @@
 package dao.impl;
 
-import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
+
 import dao.UserDao;
 import dbUtils.DbConnectionUtils;
+import dto.TourData;
 import dto.UserData;
 import utils.ReadPropertiesFile;
 
@@ -30,12 +32,9 @@ public class DefaultUserDao implements UserDao {
 	public List<UserData> getAllUsers() {
 		List<UserData> allUsersList = new LinkedList<UserData>();
 		String SQLquery = ReadPropertiesFile.readFile(PATH_SQL_QUERIES, "getAllUsersSQL");
-		PreparedStatement prSt = null;
-		Connection con = null;
 
 		try {
-			con = DbConnectionUtils.getConnection();
-			prSt = con.prepareStatement(SQLquery);
+			PreparedStatement prSt = DbConnectionUtils.getConnectionPool().prepareStatement(SQLquery);
 			ResultSet rs = prSt.executeQuery();
 
 			while (rs.next()) {
@@ -51,24 +50,6 @@ public class DefaultUserDao implements UserDao {
 
 		} catch (SQLException e) {
 			e.printStackTrace();
-		} finally {
-
-			if (prSt != null) {
-				try {
-					prSt.close();
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
-			}
-
-			if (con != null) {
-				try {
-					con.close();
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
-			}
-
 		}
 
 		return allUsersList;
@@ -78,12 +59,9 @@ public class DefaultUserDao implements UserDao {
 	public UserData getUserByUQData(String data, String SQLkey) {
 		UserData userData = new UserData();
 		String SQLquery = ReadPropertiesFile.readFile(PATH_SQL_QUERIES, SQLkey);
-		PreparedStatement prSt = null;
-		Connection con = null;
 
 		try {
-			con = DbConnectionUtils.getConnection();
-			prSt = con.prepareStatement(SQLquery);
+			PreparedStatement prSt = DbConnectionUtils.getConnectionPool().prepareStatement(SQLquery);
 			prSt.setString(1, data);
 			ResultSet rs = prSt.executeQuery();
 			while (rs.next()) {
@@ -95,69 +73,99 @@ public class DefaultUserDao implements UserDao {
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
-		} finally {
-
-			if (prSt != null) {
-				try {
-					prSt.close();
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
-			}
-
-			if (con != null) {
-				try {
-					con.close();
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
-			}
 		}
 
 		return userData;
 	}
 
 	@Override
-	public void setNewUser(String userLogin, String userEmail, String pass) {
+	public void setNewUser(UserData userData) {
 		String SQLquery = ReadPropertiesFile.readFile(PATH_SQL_QUERIES, "setNewUserSQL");
-		PreparedStatement prSt;
-		Connection con = DbConnectionUtils.getConnection();
+
 		try {
-			prSt = con.prepareStatement(SQLquery);
-			prSt.setString(1, userLogin);
-			prSt.setString(2, pass);
-			prSt.setString(3, userEmail);
+			PreparedStatement prSt = DbConnectionUtils.getConnectionPool().prepareStatement(SQLquery);
+			prSt.setString(1, userData.getUserLogin());
+			prSt.setString(2, userData.getUserPass());
+			prSt.setString(3, userData.getUserEmail());
 			prSt.execute();
 		} catch (SQLException e) {
 			e.printStackTrace();
-
-		} finally {
-			try {
-				con.close();
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
 		}
 	}
 
 	@Override
 	public void removeUser(int userID) {
-		Connection con = DbConnectionUtils.getConnection();
 		String SQLquery = ReadPropertiesFile.readFile(PATH_SQL_QUERIES, "removeUserSQL");
-		PreparedStatement prSt;
 		try {
-			prSt = con.prepareStatement(SQLquery);
+			PreparedStatement prSt = DbConnectionUtils.getConnectionPool().prepareStatement(SQLquery);
 			prSt.setInt(1, userID);
 			prSt.execute();
 		} catch (SQLException e) {
 			e.printStackTrace();
+		}
 
-		} finally {
-			try {
-				con.close();
-			} catch (SQLException e) {
-				e.printStackTrace();
+	}
+
+	@Override
+	public void getUserTours(UserData user) {
+		String SQLquery = ReadPropertiesFile.readFile(PATH_SQL_QUERIES, "getUserTourSQL");
+		List<TourData> userTours = new LinkedList<TourData>();
+
+		try {
+			PreparedStatement prSt = DbConnectionUtils.getConnectionPool().prepareStatement(SQLquery);
+			prSt.setInt(1, user.getUserID());
+			ResultSet rs = prSt.executeQuery();
+
+			while (rs.next()) {
+				TourData tourData = new TourData();
+				tourData.setTourID(rs.getInt("tour_ID"));
+				tourData.setTourType(rs.getString("tour_Type"));
+				tourData.setTourLocation(rs.getString("tour_Location"));
+				tourData.setTourCity(rs.getString("tour_City"));
+				tourData.setTourCountry(rs.getString("tour_Country"));
+				tourData.setTourHotel(rs.getString("tour_Hotel"));
+				tourData.setTourDuration(rs.getInt("tour_Duration"));
+				tourData.setTourPrice(rs.getDouble("tour_Price"));
+
+				userTours.add(tourData);
 			}
+			user.setUserTours(userTours);
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+	}
+
+	@Override
+	public void setUserTours(int userID, List<Integer> tourID) {
+		String SQLquery = ReadPropertiesFile.readFile(PATH_SQL_QUERIES, "setUserTourSQL");
+		Iterator<Integer> iter = tourID.iterator();
+
+		try {
+			PreparedStatement prSt = DbConnectionUtils.getConnectionPool().prepareStatement(SQLquery);
+
+			while (iter.hasNext()) {
+				prSt.setInt(1, iter.next());
+				prSt.execute();
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+	}
+
+	@Override
+	public void removeUserTour(int userID, int tourID) {
+		String SQLquery = ReadPropertiesFile.readFile(PATH_SQL_QUERIES, "removeUserTourSQL");
+		try {
+			PreparedStatement prSt = DbConnectionUtils.getConnectionPool().prepareStatement(SQLquery);
+			prSt.setInt(1, userID);
+			prSt.setInt(2, tourID);
+		
+		} catch (SQLException e) {
+			e.printStackTrace();
 		}
 
 	}
