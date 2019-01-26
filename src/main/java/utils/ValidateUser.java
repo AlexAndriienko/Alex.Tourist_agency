@@ -21,31 +21,4 @@ public class ValidateUser {
 		return result;
 	}
 
-	public static boolean checkLoginMatch(String login) {
-
-		boolean result = false;
-		UserData user = null;
-
-		user = DefaultUserDao.getDefaultUserDao().getUserByUQData(login, "getUserByLoginSQL");
-		if (user.getUserLogin() == null)
-			result = false;
-		else
-			result = true;
-
-		return result;
-	}
-
-	public static boolean checkEmailMatch(String email) {
-
-		boolean result = false;
-
-		UserData user = DefaultUserDao.getDefaultUserDao().getUserByUQData(email, "getUserByEmailSQL");
-		if (user.getUserLogin() == null)
-			result = false;
-		else
-			result = true;
-		
-		return result;
-	}
-
 }

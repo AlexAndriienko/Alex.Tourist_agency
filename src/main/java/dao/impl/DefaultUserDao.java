@@ -169,5 +169,36 @@ public class DefaultUserDao implements UserDao {
 		}
 
 	}
+	
+	public List<String> getAllUserLogins(){
+		String SQLquery = ReadPropertiesFile.readFile(PATH_SQL_QUERIES, "getAllUsersLoginsSQL");
+		List<String> allLogins = new LinkedList<String>();
+		try {
+			PreparedStatement prSt = DbConnectionUtils.getConnectionPool().prepareStatement(SQLquery);
+			ResultSet rs = prSt.executeQuery();
+			while (rs.next()) {				
+				allLogins.add(rs.getString("user_Login"));
+			}		
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}		
+		return allLogins;		
+	}
+	
+	public List<String> getAllUserEmails(){
+		String SQLquery = ReadPropertiesFile.readFile(PATH_SQL_QUERIES, "getAllUsersEmailsSQL");
+		
+		List<String> allEmails = new LinkedList<String>();
+		try {
+			PreparedStatement prSt = DbConnectionUtils.getConnectionPool().prepareStatement(SQLquery);
+			ResultSet rs = prSt.executeQuery();
+			while (rs.next()) {
+				allEmails.add(rs.getString("user_Email"));
+			}		
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}		
+		return allEmails;				
+	}
 
 }
