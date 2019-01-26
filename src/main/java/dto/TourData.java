@@ -14,55 +14,55 @@ public class TourData {
 		return tourID;
 	}
 
-	public void setToursID(int tourID) {
+	public void setTourID(int tourID) {
 		this.tourID = tourID;
 	}
 
-	public String getToursType() {
+	public String getTourType() {
 		return tourType;
 	}
 
-	public void setToursType(String tourType) {
+	public void setTourType(String tourType) {
 		this.tourType = tourType;
 	}
 
-	public String getToursLocation() {
+	public String getTourLocation() {
 		return tourLocation;
 	}
 
-	public void setToursLocation(String tourLocation) {
+	public void setTourLocation(String tourLocation) {
 		this.tourLocation = tourLocation;
 	}
 
-	public String getToursCity() {
+	public String getTourCity() {
 		return tourCity;
 	}
 
-	public void setToursCity(String tourCity) {
+	public void setTourCity(String tourCity) {
 		this.tourCity = tourCity;
 	}
 
-	public String getToursCountry() {
+	public String getTourCountry() {
 		return tourCountry;
 	}
 
-	public void setToursCountry(String tourCountry) {
+	public void setTourCountry(String tourCountry) {
 		this.tourCountry = tourCountry;
 	}
 
-	public String getToursHotel() {
+	public String getTourHotel() {
 		return tourHotel;
 	}
 
-	public void setToursHotel(String tourHotel) {
+	public void setTourHotel(String tourHotel) {
 		this.tourHotel = tourHotel;
 	}
 
-	public int getToursDuration() {
+	public int getTourDuration() {
 		return tourDuration;
 	}
 
-	public void setToursDuration(int tourDuration) {
+	public void setTourDuration(int tourDuration) {
 		this.tourDuration = tourDuration;
 	}
 

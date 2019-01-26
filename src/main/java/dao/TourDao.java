@@ -8,7 +8,7 @@ import dto.TourData;
 public interface TourDao {
 	
 	public List<TourData> getAllTours() throws SQLException;
-	public void setNewTour(String tourType,	String tourLocation, String tourCity, String tourCountry, String tourHotel, int tourDuration, double tourPrice);
+	public void setNewTour(TourData tourData);
 	public void removeTour(int tourID);
 
 }

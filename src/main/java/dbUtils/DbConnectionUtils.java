@@ -3,6 +3,10 @@ package dbUtils;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
+import javax.naming.InitialContext;
+import javax.naming.NamingException;
+import javax.sql.DataSource;
+
 import utils.ReadPropertiesFile;
 
 import java.sql.Connection;
@@ -22,5 +26,16 @@ public class DbConnectionUtils {
 		} catch (ClassNotFoundException | SQLException e) {
 			throw new RuntimeException(e);
 		}
+	}
+	
+	public static Connection getConnectionPool() {
+		try {
+			InitialContext initContext = new InitialContext();
+			DataSource dataSource = (DataSource) initContext.lookup("java:comp/env/jdbc/tourist_agency");
+			return dataSource.getConnection();
+		} catch (NamingException | SQLException e) {
+			throw new RuntimeException(e);
+		}
+		
 	}
 }
