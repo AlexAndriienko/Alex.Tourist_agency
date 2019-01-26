@@ -4,21 +4,21 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<link href="css/index.css" rel="stylesheet" type="text/css" />
+<link href="${pageContext.request.contextPath}/css/index.css"
+	rel="stylesheet" type="text/css" />
 <title>Tourist Agency</title>
 </head>
 <body>
 	<header>
 		<div id="logo">
-			<a href=""> <img src="images/logo.png" alt="lorem">
-			</a>
+			<a href=""> <img src="images/logo.png" alt="lorem"></a>
 		</div>
 
 
 		<h1>Welcome to the tourist agency!</h1>
 
 		<div id="login_form">
-			<form action="login" method="POST">
+			<form action="index" method="POST">
 				Login: <br> <input type="text" name="userLogin"> <br>
 				<input type="password" name="userPass"> <br> <input
 					type="submit" value="login" /> <br>
@@ -29,19 +29,19 @@
 			</p>
 		</div>
 	</header>
-	<div id="main_menu">
-		<nav id="nav">
+	<div id="main">
+		<div id="main_menu">
+			<nav id="nav">
 
-			<ul>
-				<li>Menu1</li>
-				<li>Menu2</li>
-			</ul>
-		</nav>
+				<ul>
+					<li>Menu1</li>
+					<li>Menu2</li>
+				</ul>
+			</nav>
+		</div>
+		<article></article>
 	</div>
-	<article>
-	
-	</article>
-	
+
 	<footer><%=new java.util.Date()%>
 	</footer>
 

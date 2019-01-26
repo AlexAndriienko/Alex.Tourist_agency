@@ -1,12 +1,12 @@
-import java.sql.Connection;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.regex.Pattern;
-
-import javax.naming.NamingException;
-
-import dbUtils.DbConnectionUtils;
-import utils.ValidateNewUser;
+//import java.sql.Connection;
+//import java.util.LinkedList;
+//import java.util.List;
+//import java.util.regex.Pattern;
+//
+//import javax.naming.NamingException;
+//
+//import dbUtils.DbConnectionUtils;
+//import utils.ValidateNewUser;
 
 //import java.sql.SQLException;
 //import java.util.Iterator;
@@ -18,10 +18,10 @@ import utils.ValidateNewUser;
 
 public class Demo {
 
-	public static void main(String[] args) throws NamingException {
+	public static void main(String[] args) {
 		
 		
-		System.out.println(Pattern.matches("(^[A-Za-z]([.A-Za-z0-9-]{1,18})([A-Za-z0-9])$)", "Dfcz"));
+//		System.out.println(Pattern.matches("(^[A-Za-z]([.A-Za-z0-9-]{1,18})([A-Za-z0-9])$)", "Dfcz"));
 //		
 //		List<String> allLogins = new LinkedList<String>();
 //		allLogins.add("Alex");
