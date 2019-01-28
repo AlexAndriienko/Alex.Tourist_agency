@@ -35,9 +35,9 @@ public class Signup extends HttpServlet {
 		String email = request.getParameter("email");
 		String password = request.getParameter("password");
 
-		user.setUserLogin(login.trim());
-		user.setUserEmail(email.trim());
-		user.setUserPass(password.trim());
+		user.setUserLogin(login.trim().toLowerCase());
+		user.setUserEmail(email.trim().toLowerCase());
+		user.setUserPass(password);
 
 		List<String> resultValidationList = new ValidateNewUser().getValidationLog(user);
 
@@ -45,7 +45,9 @@ public class Signup extends HttpServlet {
 			DefaultUserDao.getDefaultUserDao().setNewUser(user);
 			out.println("Registration successful");
 		} else {
-			out.println(resultValidationList);
+			request.setAttribute("resultValidationList", resultValidationList);
+			request.getRequestDispatcher("register.jsp").forward(request, response);
+//			out.println(resultValidationList);
 		}
 
 	}

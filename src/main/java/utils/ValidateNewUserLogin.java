@@ -6,6 +6,7 @@ import java.util.Objects;
 import java.util.regex.Pattern;
 
 import dao.impl.DefaultUserDao;
+import dto.UserData;
 
 public class ValidateNewUserLogin {
 
@@ -20,12 +21,9 @@ public class ValidateNewUserLogin {
 
 	public String checkLoginMatch(String login) {
 		String result = null;
-		List<String> allLogins = DefaultUserDao.getDefaultUserDao().getAllUserLogins();
+		UserData user = DefaultUserDao.getDefaultUserDao().getUserByUQData(login, "getUserByLoginSQL");
 
-		boolean loginMatch = allLogins.stream().filter(userLogin -> userLogin.equalsIgnoreCase(login)).findFirst()
-				.isPresent();
-
-		if (loginMatch) {
+		if (user != null) {
 			result = "User with this login already exists";
 		}
 

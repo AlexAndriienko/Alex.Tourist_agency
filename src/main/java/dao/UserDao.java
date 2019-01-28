@@ -10,14 +10,14 @@ public interface UserDao {
 
 	public UserData getUserByUQData(String data, String SQLkey);
 
-	public void setNewUser(UserData userData);
+	public void setNewUser(UserData user);
 	
-	public void removeUser(int userID);
+	public void removeUser(UserData user);
 	
 	public void getUserTours(UserData user);
 	
-	public void setUserTours(int userID,  List<Integer> tourID);
+	public void updateUserTours(UserData user);
 	
-	public void removeUserTour(int userID,  int tourID);
+	public void removeAllUserToursSQL(UserData user);
 
 }

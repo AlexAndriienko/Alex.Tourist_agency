@@ -1,53 +1,24 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-	pageEncoding="ISO-8859-1"%>
-<!DOCTYPE html>
-<html>
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<link href="${pageContext.request.contextPath}/css/index.css"
-	rel="stylesheet" type="text/css" />
-<title>Tourist Agency</title>
-</head>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="template" tagdir="/WEB-INF/tags"%>
+
+
+<template:default_template title="Home">
+	<jsp:attribute name="head">
+	
+	</jsp:attribute>
+
+	<jsp:attribute name="content">
+	
+		<p>Lorem</p>
+	
+	</jsp:attribute>
+
+</template:default_template>
+
+
 <body>
-	<header>
-		<div id="logo">
-			<a href=""> <img src="images/logo.png" alt="lorem"></a>
-		</div>
-
-
-		<h1>Welcome to the tourist agency!</h1>
-
-		<div id="login_form">
-			<form action="index" method="POST">
-				Login: <br> <input type="text" name="userLogin"> <br>
-				<input type="password" name="userPass"> <br> <input
-					type="submit" value="login" /> <br>
-			</form>
-			<p>
-				Not member yet? <a href="${pageContext.request.contextPath}/signup">Sign
-					up</a>
-			</p>
-		</div>
-	</header>
-	<div id="main">
-		<div id="main_menu">
-			<nav id="nav">
-
-				<ul>
-					<li>Menu1</li>
-					<li>Menu2</li>
-				</ul>
-			</nav>
-		</div>
-		<article></article>
-	</div>
-
-	<footer><%=new java.util.Date()%>
-	</footer>
-
-
-
-
 
 
 
