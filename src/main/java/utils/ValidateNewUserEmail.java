@@ -23,7 +23,7 @@ public class ValidateNewUserEmail {
 		String result = null;
 		UserData user = DefaultUserDao.getDefaultUserDao().getUserByUQData(email, "getUserByEmailSQL");
 
-		if (user != null) {
+		if (user.getUserEmail() != null) {
 			result = "User with this email already exists";
 		}
 

@@ -1,5 +1,6 @@
 package dao.impl;
 
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -33,7 +34,8 @@ public class DefaultUserDao implements UserDao {
 		List<UserData> allUsersList = new LinkedList<UserData>();
 		String SQLquery = ReadPropertiesFile.readFile(PATH_SQL_QUERIES, "getAllUsersSQL");
 
-		try (PreparedStatement prSt = DbConnectionUtils.getConnectionPool().prepareStatement(SQLquery)) {
+		try (Connection conn = DbConnectionUtils.getConnectionPool();
+			PreparedStatement prSt = conn.prepareStatement(SQLquery)) {
 			ResultSet rs = prSt.executeQuery();
 
 			while (rs.next()) {
@@ -59,7 +61,8 @@ public class DefaultUserDao implements UserDao {
 		UserData userData = new UserData();
 		String SQLquery = ReadPropertiesFile.readFile(PATH_SQL_QUERIES, SQLkey);
 
-		try (PreparedStatement prSt = DbConnectionUtils.getConnectionPool().prepareStatement(SQLquery)) {
+		try (Connection conn = DbConnectionUtils.getConnectionPool();
+			PreparedStatement prSt = conn.prepareStatement(SQLquery)) {
 			prSt.setString(1, data);
 			ResultSet rs = prSt.executeQuery();
 			while (rs.next()) {
@@ -80,7 +83,8 @@ public class DefaultUserDao implements UserDao {
 	public void setNewUser(UserData userData) {
 		String SQLquery = ReadPropertiesFile.readFile(PATH_SQL_QUERIES, "setNewUserSQL");
 
-		try (PreparedStatement prSt = DbConnectionUtils.getConnectionPool().prepareStatement(SQLquery)) {
+		try (Connection conn = DbConnectionUtils.getConnectionPool();
+			PreparedStatement prSt = conn.prepareStatement(SQLquery)) {
 			prSt.setString(1, userData.getUserLogin());
 			prSt.setString(2, userData.getUserPass());
 			prSt.setString(3, userData.getUserEmail());
@@ -93,7 +97,8 @@ public class DefaultUserDao implements UserDao {
 	@Override
 	public void removeUser(UserData user) {
 		String SQLquery = ReadPropertiesFile.readFile(PATH_SQL_QUERIES, "removeUserSQL");
-		try (PreparedStatement prSt = DbConnectionUtils.getConnectionPool().prepareStatement(SQLquery)) {
+		try (Connection conn = DbConnectionUtils.getConnectionPool();
+			PreparedStatement prSt = conn.prepareStatement(SQLquery)) {
 			prSt.setInt(1, user.getUserID());
 			prSt.execute();
 		} catch (SQLException e) {
@@ -107,7 +112,8 @@ public class DefaultUserDao implements UserDao {
 		String SQLquery = ReadPropertiesFile.readFile(PATH_SQL_QUERIES, "getUserTourSQL");
 		List<TourData> userTours = new LinkedList<TourData>();
 
-		try (PreparedStatement prSt = DbConnectionUtils.getConnectionPool().prepareStatement(SQLquery)) {
+		try (Connection conn = DbConnectionUtils.getConnectionPool();
+			PreparedStatement prSt = conn.prepareStatement(SQLquery)) {
 			prSt.setInt(1, user.getUserID());
 			ResultSet rs = prSt.executeQuery();
 
@@ -138,7 +144,8 @@ public class DefaultUserDao implements UserDao {
 		removeAllUserToursSQL(userNewTours);
 		List<TourData> newTours = userNewTours.getUserTours();
 		Iterator<TourData> iter = newTours.iterator();
-		try (PreparedStatement prSt = DbConnectionUtils.getConnectionPool().prepareStatement(SQLquery)) {
+		try (Connection conn = DbConnectionUtils.getConnectionPool();
+			PreparedStatement prSt = conn.prepareStatement(SQLquery)) {
 
 			while (iter.hasNext()) {
 				prSt.setInt(1, userNewTours.getUserID());
@@ -155,7 +162,8 @@ public class DefaultUserDao implements UserDao {
 	@Override
 	public void removeAllUserToursSQL(UserData user) {
 		String SQLquery = ReadPropertiesFile.readFile(PATH_SQL_QUERIES, "removeUserTourSQL");
-		try (PreparedStatement prSt = DbConnectionUtils.getConnectionPool().prepareStatement(SQLquery)) {
+		try (Connection conn = DbConnectionUtils.getConnectionPool();
+			PreparedStatement prSt = conn.prepareStatement(SQLquery)) {
 			prSt.setInt(1, user.getUserID());
 			prSt.execute();
 

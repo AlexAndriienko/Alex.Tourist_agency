@@ -15,9 +15,9 @@
 				<h1>Sign up</h1>
 				<p>Please fill in this form to create an account.</p>
 				<div class=alert_message>
-				<c:forEach items="${resultValidationList}" var="message"> ${message} <br>
-				</c:forEach>
-			</div>
+					<c:forEach items="${resultValidationList}" var="message"> ${message} <br>
+					</c:forEach>
+				</div>
 				
 				<label for="login"><b>Login</b></label> 
 				<input type="text" placeholder="Enter Login" name="login" required><br>
@@ -36,10 +36,4 @@
 
 </template:default_template>
 
-
-<body>
-
-
-
-</body>
 </html>

@@ -39,7 +39,6 @@ public class MainServlet extends HttpServlet {
 			HttpSession session = request.getSession();
 			session.setAttribute("loggedUser", loggedUser);
 			response.sendRedirect(request.getContextPath() + "/account");
-
 		} else {
 			RequestDispatcher rs = request.getRequestDispatcher("error.jsp");
 			rs.include(request, response);

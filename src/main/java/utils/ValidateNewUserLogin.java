@@ -23,7 +23,7 @@ public class ValidateNewUserLogin {
 		String result = null;
 		UserData user = DefaultUserDao.getDefaultUserDao().getUserByUQData(login, "getUserByLoginSQL");
 
-		if (user != null) {
+		if (user.getUserLogin() != null) {
 			result = "User with this login already exists";
 		}
 

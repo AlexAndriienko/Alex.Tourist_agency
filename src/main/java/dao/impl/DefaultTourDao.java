@@ -1,5 +1,6 @@
 package dao.impl;
 
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -31,7 +32,9 @@ public class DefaultTourDao implements TourDao {
 		String SQLquery = ReadPropertiesFile.readFile(PATH_SQL_QUERIES, "getAllToursSQL");
 		List<TourData> allToursList = new LinkedList<TourData>();
 
-		try(PreparedStatement prSt = DbConnectionUtils.getConnectionPool().prepareStatement(SQLquery)) {
+		try(Connection conn = DbConnectionUtils.getConnectionPool();
+			PreparedStatement prSt = conn.prepareStatement(SQLquery)) {
+			
 			ResultSet rs = prSt.executeQuery();
 
 			while (rs.next()) {
@@ -57,9 +60,10 @@ public class DefaultTourDao implements TourDao {
 
 	@Override
 	public void setNewTour(TourData tourData) {
+		
 		String SQLquery = ReadPropertiesFile.readFile(PATH_SQL_QUERIES, "setNewTourSQL");
-
-		try(PreparedStatement prSt = DbConnectionUtils.getConnectionPool().prepareStatement(SQLquery)) {
+		try(Connection conn = DbConnectionUtils.getConnectionPool();
+			PreparedStatement prSt = conn.prepareStatement(SQLquery)) {
 
 			prSt.setString(1, tourData.getTourType());
 			prSt.setString(2, tourData.getTourLocation());
@@ -68,7 +72,6 @@ public class DefaultTourDao implements TourDao {
 			prSt.setString(5, tourData.getTourHotel());
 			prSt.setInt(6, tourData.getTourDuration());
 			prSt.setDouble(7, tourData.getTourPrice());
-
 			prSt.execute();
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -78,7 +81,8 @@ public class DefaultTourDao implements TourDao {
 	@Override
 	public void removeTour(int tourID) {
 		String SQLquery = ReadPropertiesFile.readFile(PATH_SQL_QUERIES, "removeTourSQL");
-		try(PreparedStatement prSt = DbConnectionUtils.getConnectionPool().prepareStatement(SQLquery)) {
+		try(Connection conn = DbConnectionUtils.getConnectionPool();
+			PreparedStatement prSt = conn.prepareStatement(SQLquery)) {
 			prSt.setInt(1, tourID);
 			prSt.execute();
 		} catch (SQLException e) {
