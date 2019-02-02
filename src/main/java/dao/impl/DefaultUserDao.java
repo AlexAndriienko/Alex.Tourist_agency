@@ -106,6 +106,33 @@ public class DefaultUserDao implements UserDao {
 		}
 
 	}
+	
+	public void changeUserPass(UserData user) {
+		String SQLquery = ReadPropertiesFile.readFile(PATH_SQL_QUERIES, "changeUserPassSQL");
+		try (Connection conn = DbConnectionUtils.getConnectionPool();
+			PreparedStatement prSt = conn.prepareStatement(SQLquery)) {
+			prSt.setString(1, user.getUserPass());
+			prSt.setInt(2, user.getUserID());
+			prSt.execute();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+	}
+	
+	public void changeUserEmail(UserData user) {
+		String SQLquery = ReadPropertiesFile.readFile(PATH_SQL_QUERIES, "changeUserEmailSQL");
+		try (Connection conn = DbConnectionUtils.getConnectionPool();
+			PreparedStatement prSt = conn.prepareStatement(SQLquery)) {
+			prSt.setString(1, user.getUserEmail());
+			prSt.setInt(2, user.getUserID());
+			prSt.execute();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+	}
+	
 
 	@Override
 	public void getUserTours(UserData user) {

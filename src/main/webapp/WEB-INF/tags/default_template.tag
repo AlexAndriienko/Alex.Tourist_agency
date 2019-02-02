@@ -30,10 +30,10 @@
 
 		<div class="main_menu">
 			<ul>
-				<li class=menu_item><a class="switch" href="${pageContext.request.contextPath}/">Main</a></li>
-				<li class=menu_item><a class="switch" href="${pageContext.request.contextPath}/our_tours">Our tours</a></li>
-				<li class=menu_item><a class="switch" href="${pageContext.request.contextPath}/account">Account</a></li>
-				<li class=menu_item><a class="switch" href="${pageContext.request.contextPath}/contacts.jsp">Contacts</a></li>
+				<li class=menu_item><a class="switch a1" href="${pageContext.request.contextPath}/">Main</a></li>
+				<li class=menu_item><a class="switch a2" href="${pageContext.request.contextPath}/our_tours">Our tours</a></li>
+				<li class=menu_item><a class="switch a3" href="${pageContext.request.contextPath}/account">Account</a></li>
+				<li class=menu_item><a class="switch a4" href="${pageContext.request.contextPath}/contacts.jsp">Contacts</a></li>
 				<li class=clear></li>
 			</ul>
 		</div>

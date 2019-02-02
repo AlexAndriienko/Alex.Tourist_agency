@@ -13,11 +13,17 @@
 	
 			<h2>Our tours</h2>
 			<br>
-			<p>To order a tour please log in to your <a href="${pageContext.request.contextPath}/account">account</a>. If you are not registered, please register <a href="${pageContext.request.contextPath}/signup">here</a>.</p>
+			<p>To order a tour please log in. If you are not registered, please register <a href="${pageContext.request.contextPath}/signup">here</a>.</p>
 			<br>
-			
+			<div class=seach_form>
+				<form action="our_tours" method="POST">
+					<input class="seach_tours" type="text" name="seach" required placeholder="Country, city, hotel...">
+					<input type="submit" value="Search"/>
+				</form>						
+			</div>
 			<br>
 			<div class=table_tour>
+   					
 						<div class = "table_row">
 							<div class = "titlebox box1"><p>Tour type</p></div>
 							<div class = "titlebox box2"><p>Location</p></div>
@@ -36,8 +42,14 @@
 								<div class = "box box5">${tour.getTourHotel()}</div>
 								<div class = "box box6">${tour.getTourDuration()} days</div>
 								<div class = "box box7">${tour.getTourPrice()}$</div>
+								<c:choose>
+   									<c:when test="${sessionScope.loggedUser != null}">
+										<button>Order</button>
+									</c:when>
+										
+								</c:choose>
 							</div>					
-						</c:forEach>
+						</c:forEach>					
 			</div>
 	
 	</jsp:attribute>

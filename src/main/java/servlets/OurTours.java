@@ -2,7 +2,9 @@ package servlets;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -36,7 +38,26 @@ public class OurTours extends HttpServlet {
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
-		doGet(request, response);
+		List<TourData> allTours = null;
+		try {
+			allTours = DefaultTourDao.getDefaultTourDao().getAllTours();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		String search = request.getParameter("seach").trim().toLowerCase();
+		List<TourData> search_tours = null;
+		
+		search_tours = allTours.stream()
+				.filter(tour -> tour.getTourType().toLowerCase().contains(search) || 
+						tour.getTourCountry().toLowerCase().contains(search) ||
+						tour.getTourCity().toLowerCase().contains(search) ||
+						tour.getTourHotel().toLowerCase().contains(search))				
+				.collect(Collectors.toCollection(LinkedList<TourData>::new));
+		
+		request.setAttribute("tours", search_tours);		
+		request.getRequestDispatcher("our_tours.jsp").forward(request, response);
+		
 	}
 
 }
