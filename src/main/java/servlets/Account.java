@@ -24,18 +24,7 @@ public class Account extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 
-		UserData loggedUser = (UserData) request.getSession().getAttribute("loggedUser");
-		if (loggedUser == null) {
-			request.getRequestDispatcher("index.jsp").forward(request, response);
-		} else {
-			int loggedUserID = loggedUser.getUserID();
-			String loggedUserLogin = loggedUser.getUserLogin();
-			String loggedUserEmail = loggedUser.getUserEmail();
-			request.setAttribute("loggedUserID", loggedUserID);
-			request.setAttribute("loggedUserLogin", loggedUserLogin);
-			request.setAttribute("loggedUserEmail", loggedUserEmail);
 			request.getRequestDispatcher("account.jsp").forward(request, response);
-		}
 
 	}
 

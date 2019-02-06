@@ -12,8 +12,7 @@
 	
 		<form action="signup" method="POST">
 			<div class="container">
-				<h1>Sign up</h1>
-				<p>Please fill in this form to create an account.</p>
+				<p>Please fill in this form to create an account or fill the login form if you are a registered user.</p>
 				<div class=alert_message>
 					<c:forEach items="${resultValidationList}" var="message"> ${message} <br>
 					</c:forEach>
@@ -32,6 +31,31 @@
 			
 		</form>
 	
+	</jsp:attribute>
+	
+	<jsp:attribute name="sec_content">
+			<c:choose>
+   				<c:when test="${sessionScope.loggedUser != null}">
+   					<div class="logged">
+   						<p>Your login: ${loggedUser.getUserLogin()}</p>
+   						<p>Your email: ${loggedUser.getUserEmail()}</p> 				
+					</div>	   							
+				</c:when>
+				
+   				<c:otherwise>
+	   				<div class="login_form">
+						<form action="index" method="POST">
+							<input class="login_item" type="text" name="userLogin" required placeholder="login"><br> 
+							<input class="login_item" type="password" name="userPass" required placeholder="password"><br> 
+							<input type="submit" value="Login" />
+						</form>
+						<span class="login_text">Not member yet? <a href="${pageContext.request.contextPath}/signup">Sign up</a></span>
+					</div>	   				
+				</c:otherwise>				
+			</c:choose>	
+				<div class="sec_article">
+   					<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit , sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>			
+				</div>		
 	</jsp:attribute>
 
 </template:default_template>

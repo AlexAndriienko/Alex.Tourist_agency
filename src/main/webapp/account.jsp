@@ -10,6 +10,7 @@
 	</jsp:attribute>
 
 	<jsp:attribute name="content">
+	
 			<p>Your login: ${loggedUser.getUserLogin()}</p>
    			<p>Your email: ${loggedUser.getUserEmail()}</p>			
    			<c:choose>
