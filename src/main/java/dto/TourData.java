@@ -10,7 +10,7 @@ public class TourData {
 	private int tourDuration;
 	private double tourPrice;
 
-	public int getToursID() {
+	public int getTourID() {
 		return tourID;
 	}
 

@@ -1,3 +1,5 @@
+
+
 //import java.sql.Connection;
 //import java.util.LinkedList;
 //import java.util.List;
@@ -53,6 +55,6 @@ public class Demo {
 //		       System.out.println(it.next().toString());
 //		    }
 		
-//		System.out.println(DefaultUserDao.getDefaultUserDao().getUserByUQData("Alex", "getUserByLoginSQL"));
+
 	}
 }

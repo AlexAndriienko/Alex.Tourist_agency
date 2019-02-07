@@ -1,7 +1,6 @@
 package servlets;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.List;
 
 import javax.servlet.ServletException;
@@ -28,24 +27,26 @@ public class Signup extends HttpServlet {
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		PrintWriter out = response.getWriter();
+		List<String> resultValidationList = null;
 
 		UserData user = new UserData();
 		String login = request.getParameter("login");
 		String email = request.getParameter("email");
 		String password = request.getParameter("password");
-
-		user.setUserLogin(login.trim());
-		user.setUserEmail(email.trim());
-		user.setUserPass(password.trim());
-
-		List<String> resultValidationList = new ValidateNewUser().getValidationLog(user);
+		String password_repeat = request.getParameter("password-repeat");
+		
+		user.setUserLogin(login.trim().toLowerCase());
+		user.setUserEmail(email.trim().toLowerCase());
+		user.setUserPass(password);
+		
+		resultValidationList = new ValidateNewUser().getValidationLog(user, password_repeat);
 
 		if (resultValidationList.isEmpty()) {
 			DefaultUserDao.getDefaultUserDao().setNewUser(user);
-			out.println("Registration successful");
+			request.getRequestDispatcher("index.jsp").forward(request, response);
 		} else {
-			out.println(resultValidationList);
+			request.setAttribute("resultValidationList", resultValidationList);
+			request.getRequestDispatcher("register.jsp").forward(request, response);
 		}
 
 	}

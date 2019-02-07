@@ -29,8 +29,8 @@ public class MainServlet extends HttpServlet {
 			throws ServletException, IOException {
 
 		UserData loggedUser = null;
-		String userLogin = request.getParameter("userLogin");
-		String userPass = request.getParameter("userPass");
+		String userLogin = request.getParameter("userLogin").trim().toLowerCase();
+		String userPass = request.getParameter("userPass");	
 
 		if (ValidateUser.checkUser(userLogin, userPass)) {
 
@@ -39,7 +39,6 @@ public class MainServlet extends HttpServlet {
 			HttpSession session = request.getSession();
 			session.setAttribute("loggedUser", loggedUser);
 			response.sendRedirect(request.getContextPath() + "/account");
-
 		} else {
 			RequestDispatcher rs = request.getRequestDispatcher("error.jsp");
 			rs.include(request, response);

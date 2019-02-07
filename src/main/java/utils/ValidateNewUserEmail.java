@@ -6,6 +6,7 @@ import java.util.Objects;
 import java.util.regex.Pattern;
 
 import dao.impl.DefaultUserDao;
+import dto.UserData;
 
 public class ValidateNewUserEmail {
 
@@ -20,12 +21,9 @@ public class ValidateNewUserEmail {
 
 	public String checkEmailMatch(String email) {
 		String result = null;
-		List<String> allEmails = DefaultUserDao.getDefaultUserDao().getAllUserEmails();
+		UserData user = DefaultUserDao.getDefaultUserDao().getUserByUQData(email, "getUserByEmailSQL");
 
-		boolean loginMatch = allEmails.stream().filter(userEmail -> userEmail.equalsIgnoreCase(email)).findFirst()
-				.isPresent();
-
-		if (loginMatch) {
+		if (user.getUserEmail() != null) {
 			result = "User with this email already exists";
 		}
 
