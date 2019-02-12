@@ -11,7 +11,7 @@ import javax.servlet.http.HttpSession;
 
 import dao.impl.DefaultUserDao;
 import dto.UserData;
-import utils.ValidateUser;
+import utils.DefaultUserValidator;
 
 public class MainServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
@@ -32,10 +32,8 @@ public class MainServlet extends HttpServlet {
 		String userLogin = request.getParameter("userLogin").trim().toLowerCase();
 		String userPass = request.getParameter("userPass");	
 
-		if (ValidateUser.checkUser(userLogin, userPass)) {
-
+		if (DefaultUserValidator.getDefaultUserValidator().checkUser(userLogin, userPass)) {
 			loggedUser = DefaultUserDao.getDefaultUserDao().getUserByUQData(userLogin, "getUserByLoginSQL");
-
 			HttpSession session = request.getSession();
 			session.setAttribute("loggedUser", loggedUser);
 			response.sendRedirect(request.getContextPath() + "/account");

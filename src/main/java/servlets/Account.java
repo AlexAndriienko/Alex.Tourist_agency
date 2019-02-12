@@ -11,8 +11,7 @@ import javax.servlet.http.HttpSession;
 
 import dao.impl.DefaultUserDao;
 import dto.UserData;
-import utils.ValidateNewPass;
-import utils.ValidateNewUserEmail;
+import utils.DefaultUserValidator;
 
 public class Account extends HttpServlet {
 	private static final long serialVersionUID = 1L;
@@ -41,7 +40,7 @@ public class Account extends HttpServlet {
 			String password = request.getParameter("password");
 			String password_repeat = request.getParameter("password-repeat");
 
-			List<String> passValidationList = new ValidateNewPass().getLog(password, password_repeat);
+			List<String> passValidationList = DefaultUserValidator.getDefaultUserValidator().checkPass(password, password_repeat);
 
 			if (passValidationList.isEmpty()) {
 				loggedUser.setUserPass(password);
@@ -58,7 +57,7 @@ public class Account extends HttpServlet {
 		case 2:
 			String email = request.getParameter("email");
 
-			List<String> emailValidationList = new ValidateNewUserEmail().getLog(email);
+			List<String> emailValidationList = DefaultUserValidator.getDefaultUserValidator().checkEmail(email);
 
 			if (emailValidationList.isEmpty()) {
 				loggedUser.setUserEmail(email);

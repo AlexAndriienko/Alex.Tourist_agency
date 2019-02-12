@@ -5,32 +5,22 @@
 
 <template:default_template title="Signup">
 	<jsp:attribute name="head">
-	
+		<script src="js/ajax-validate.js" type="text/javascript"></script>
 	</jsp:attribute>
 
 	<jsp:attribute name="content">
+		<p>Please fill this form to create an account or fill the login form if you are a registered user.</p>
 	
-		<form action="signup" method="POST">
-			<div class="container">
-				<p>Please fill in this form to create an account or fill the login form if you are a registered user.</p>
-				<div class=alert_message>
-					<c:forEach items="${resultValidationList}" var="message"> ${message} <br>
-					</c:forEach>
-				</div>
-				
-				<label for="login"><b>Login</b></label> 
-				<input type="text" placeholder="Enter Login" name="login" required><br>
-				<label for="email"><b>Email</b></label> 
-				<input type="text" placeholder="Enter Email" name="email" required><br>
-				<label for="psw"><b>Password</b></label> 
-				<input type="password" placeholder="Enter Password" name="password" required><br>
-				<label for="password-repeat"><b>Repeat Password</b></label> 
-				<input type="password" placeholder="Repeat Password" name="password-repeat" required> <br><br>	
-				<button type="submit" class="registerbtn">Register</button>
-			</div>
-			
+	<div class="register">
+		<form id = register_form>							
+			<input id = "login" type="text" placeholder="Enter Login" name="login" required><span id="msgLogin"></span> <br>				
+			<input id = "email" type="text" placeholder="Enter Email" name="email" required><span id="msgEmail"></span> <br>			
+			<input id = "pass" type="password" placeholder="Enter Password" name="pass" required><span id="msgPass"></span><br>				
+			<input id = "passRpt" type="password" placeholder="Repeat Password" name="passRpt" required> <span id="msgPassRpt"></span> <br><br>	
+			<button type="submit" class="registerbtn">Register</button>			
 		</form>
-	
+	</div>
+			
 	</jsp:attribute>
 	
 	<jsp:attribute name="sec_content">

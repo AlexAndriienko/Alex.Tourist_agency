@@ -9,8 +9,10 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <link href="css/index.css" rel="stylesheet" type="text/css" />
-<title>${title}</title>
+<script src="js/jquery-3.3.1.js" type="text/javascript"></script>
+<script src="http://code.jquery.com/jquery-1.10.2.js" type="text/javascript"></script>
 <jsp:invoke fragment="head"></jsp:invoke>
+<title>${title}</title>
 </head>
 <body>
 
