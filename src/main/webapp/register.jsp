@@ -5,7 +5,7 @@
 
 <template:default_template title="Signup">
 	<jsp:attribute name="head">
-		<script src="js/ajax-validate.js" type="text/javascript"></script>
+		<script src="${pageContext.request.contextPath}/js/ajaxvalidate.js" type="text/javascript"></script>
 	</jsp:attribute>
 
 	<jsp:attribute name="content">
@@ -16,7 +16,7 @@
 			<input id = "login" type="text" placeholder="Enter Login" name="login" required><span id="msgLogin"></span> <br>				
 			<input id = "email" type="text" placeholder="Enter Email" name="email" required><span id="msgEmail"></span> <br>			
 			<input id = "pass" type="password" placeholder="Enter Password" name="pass" required><span id="msgPass"></span><br>				
-			<input id = "passRpt" type="password" placeholder="Repeat Password" name="passRpt" required> <span id="msgPassRpt"></span> <br><br>	
+			<input id = "passRpt" type="password" placeholder="Repeat Password" name="passRpt" required> <span id="msgPassRpt"></span><br><br>	
 			<button type="submit" class="registerbtn">Register</button>			
 		</form>
 	</div>

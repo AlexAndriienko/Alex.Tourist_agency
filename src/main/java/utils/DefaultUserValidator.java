@@ -157,5 +157,12 @@ public class DefaultUserValidator implements UserValidator {
 
 		return result;
 	}
+	
+	public List<String> checkPass(String pass) {
+		List<String> resultlog = new LinkedList<String>();
+		resultlog.add(checkCharPass(pass));
+		resultlog.removeIf(Objects::isNull);
+		return resultlog;
+	}
 
 }
