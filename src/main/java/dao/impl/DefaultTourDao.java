@@ -90,4 +90,29 @@ public class DefaultTourDao implements TourDao {
 		}
 
 	}
+	
+	public TourData getTourById(String tourID) {
+		String SQLquery = ReadPropertiesFile.readFile(PATH_SQL_QUERIES, "getTourByIdSQL");
+		TourData tourData = new TourData();
+		try(Connection conn = DbConnectionUtils.getConnectionPool();
+				PreparedStatement prSt = conn.prepareStatement(SQLquery)) {
+				prSt.setString(1, tourID);
+				ResultSet rs = prSt.executeQuery();
+				while (rs.next()) {
+					tourData.setTourID(rs.getInt("tour_ID"));
+					tourData.setTourType(rs.getString("tour_Type"));
+					tourData.setTourLocation(rs.getString("tour_Location"));
+					tourData.setTourCity(rs.getString("tour_City"));
+					tourData.setTourCountry(rs.getString("tour_Country"));
+					tourData.setTourHotel(rs.getString("tour_Hotel"));
+					tourData.setTourDuration(rs.getInt("tour_Duration"));
+					tourData.setTourPrice(rs.getDouble("tour_Price"));
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		
+		return tourData;
+		
+	}
 }

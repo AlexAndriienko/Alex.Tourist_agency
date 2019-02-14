@@ -7,6 +7,7 @@ public class UserData {
 	private int userID;
 	private String userLogin;
 	private String userPass;
+	private String userPassRpt;
 	private String userEmail;
 	private int user_Access;
 	private List<TourData> userTours;
@@ -48,11 +49,22 @@ public class UserData {
 	public void setUserTours(List<TourData> userTours) {
 		this.userTours = userTours;
 	}
+	
+	public String getUserPassRpt() {
+		return userPassRpt;
+	}
+	public void setUserPassRpt(String userPassRpt) {
+		this.userPassRpt = userPassRpt;
+	}
+	
 	@Override
 	public String toString() {
-		return "UserData [userID=" + userID + ", userLogin=" + userLogin + ", userPass=" + userPass + ", userEmail="
-				+ userEmail + ", user_Access=" + user_Access + ", userTours=" + userTours + "]";
+		return "UserData [userID=" + userID + ", userLogin=" + userLogin + ", userPass=" + userPass + ", userPassRpt="
+				+ userPassRpt + ", userEmail=" + userEmail + ", user_Access=" + user_Access + ", userTours=" + userTours
+				+ "]";
 	}
+	
+	
 	
 
 }
