@@ -6,7 +6,7 @@
 
 <template:default_template title="Our tours">
 	<jsp:attribute name="head">
-	
+		<script src="js/ajaxourtours.js" type="text/javascript"></script>
 	</jsp:attribute>
 
 	<jsp:attribute name="content">
@@ -44,9 +44,10 @@
 								<div class = "box box7">${tour.getTourPrice()}$</div>
 								<c:choose>
    									<c:when test="${sessionScope.loggedUser != null}">
-										<button>Order</button>
-									</c:when>
-										
+   										<div class = "btn_cont">
+											<button class = "addTourBtn" id = "${tour.getTourID()}">To cart</button>
+										</div>
+									</c:when>										
 								</c:choose>
 							</div>					
 						</c:forEach>					

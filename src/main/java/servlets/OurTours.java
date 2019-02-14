@@ -32,7 +32,6 @@ public class OurTours extends HttpServlet {
 			e.printStackTrace();
 		}
 		request.setAttribute("tours", allTours);
-		
 		request.getRequestDispatcher("our_tours.jsp").forward(request, response);
 	}
 
